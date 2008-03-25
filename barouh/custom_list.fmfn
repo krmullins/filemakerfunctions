@@ -1,0 +1,94 @@
+/*
+------------------------------------------------------------------------------
+CustomList ( Start ; End ; Function )
+v 1.1
+Agnès Barouh - Report bugs to: barouh.agnes@wanadoo.fr
+------------------------------------------------------------------------------
+
+NOTES:
+
+Numeric Lists range from X to +20000
+Text Lists range from X to +18700
+If your data is sorted, for GetNthRecord and GetLayoutObjectAttribute don't specify End - Start < +/-1500
+otherwise it takes a long time  to obtain the result
+IMPORTANT: When passing number values within the Function parameter you must use "[n]".
+It's replaced internally by the function.
+
+EXAMPLES:
+
+CustomList (  Start ; End ; "GetNthRecord ( FieldReference ; [n] )" ) 
+CustomList (  Start ; End ; """Name =>"" & GetNthRecord ( FieldName ; [n] ) & "" FirstName =>"" & GetNthRecord ( FirstFieldName ; [n] )"" )
+CustomList (  Start ; End ; "[n] & ""."" & MiddleValues ( FieldReference ; [n] ; 1 )") 
+CustomList (  Start ; End ; "GetAsDate ( Date ) + [n] )" )
+CustomList (  Start ; End ; "GetLayoutObjectAttribute ( ""ObjectName"" ; ""Content"" ; 1 ; [n] )" )
+CustomList (  Start ; End ; "Let ( [ Value = GetValue ( MyList ; [n] ) ] ; Case ( PatternCount ( Value ; "X" ) ; Value ))" )
+CustomList (  Start ; End ; "Let ([ $$Var[[n]] = GetNthRecord ( Field ; [n] ) ] ; """" ) " ) // To charge N variable
+*/
+
+
+// Parameter Checks
+
+Let([
+    
+    ParametersOK
+        = ( GetAsNumber( Start ) = Start )
+        = ( GetAsNumber( End ) = End )
+        = ( not IsEmpty( Start ) and not IsEmpty( End ) )
+        = ( GetAsNumber( End ) ≥ GetAsNumber( Start ) and GetAsNumber( End ) ≤ 20000 );
+
+    Bad_Params_Message = "You must supply numeric values for the Start and End values, End cannot be greater than Start and End may not be greater than 20,000."
+
+    ];
+    
+    If( not ParametersOK ; Bad_Params_Message ;
+    
+    Let ( [
+
+    // Number List : --------------- Create numeric list -------------------
+
+            NumCalc =  Substitute ( ( 10 ^ 33 ) -1; "9"; "100100100" ) ;
+            List1_99 = Substitute ( "_00" & NumToJText ( Left ( NumCalc * NumCalc ; 295 ) ; 1 ; 0 ) ; ["," ; "_"] ; ["." ; "_"] ) ;
+            $List100_199 = "_100"  & Substitute (  List1_99 ; ["_0" ; "_1"] ) ; // (local variable makes it faster in a looped script )
+            EndMax =   LeftWords ( List1_99 & $List100_199 & "_200" ; Int ( ( End - 100 ) / 100 ) + 1 ) ;
+            FinalList =  MiddleWords ( List1_99 & Evaluate ( Substitute ( "(\"_" & EndMax ; 
+                              [ "_"; ( "|Substitute( $List100_199 ; \"_1\"; \"_" ) ] ; [ "|"; "\") & "] )  & "\")" ) ; Start ; End - Start + 1 ) ;
+
+    //----------------------------- End Create numeric list -----------------
+
+            FunctionR = Substitute ( Function ; "[n]" ; "Num" ) ;
+
+    // Execute : Create the function string to be evaluated
+
+            Execute =   Case ( not IsEmpty ( Function ) ; 
+                            Case ( Left ( Substitute ( Lower ( Function ) ; ["Define" ; "Let" ] ; [" " ; ""] ; ["¶" ; ""]) ; 5 ) = "Let([" ; // If it's a Let()
+                            Substitute ( "Let([Num=" & FinalList & "|" ;  [ "_";  "|¶Let([Num="] ; [ "|";
+                            ";" & Replace ( FunctionR ; 1 ; Position ( FunctionR ; "[" ; 1 ; 1 ) ; "" ) & "&\"^|^\"&"] ) ;
+                            Substitute ( "Let([Num=" & FinalList & "|" ;  [ "_";  "|¶Let([Num="] ; [ "|";
+                            "];" & FunctionR & ")&\"^|^\"&"] ) ) ) ;
+
+    // X - Determine the number of "blocks" to avoid the limit of the "Evaluate" Function
+
+            X = Int ( End / 1700 )  ;
+
+    // Result : if "Function" parameter is empty, result is numeric list
+
+            Result = Substitute ( "^" & Case ( IsEmpty ( Function ) ; Substitute ( "_" & FinalList ; ["_00" ; "¶"] ; [ "_0" ; "¶"] ; [ "_" ; "¶"] ) ;                            
+                            Evaluate  ( MiddleValues ( Execute ; 1 ; 1700 )   & "\"\"")  & 
+                            Case ( X  >=  1 ; Evaluate ( MiddleValues ( Execute;  1701; 1700 ) & "\"\"" ) ; "" ) &
+                            Case ( X  >=  2 ; Evaluate ( MiddleValues ( Execute;  3401; 1700 ) & "\"\"" ) ; "" ) &
+                            Case ( X  >=  3 ; Evaluate ( MiddleValues ( Execute;  5101; 1700 ) & "\"\"" ) ; "" ) &
+                            Case ( X  >=  4 ; Evaluate ( MiddleValues ( Execute;  6801; 1700 ) & "\"\"" ) ; "" ) &
+                            Case ( X  >=  5 ; Evaluate ( MiddleValues ( Execute;  8501; 1700 ) & "\"\"" ) ; "" ) &
+                            Case ( X  >=  6 ; Evaluate ( MiddleValues ( Execute; 10201; 1700 ) & "\"\"" ) ; "" ) &
+                            Case ( X  >=  7 ; Evaluate ( MiddleValues ( Execute; 11901; 1700 ) & "\"\"" ) ; "" ) &
+                            Case ( X  >=  8 ; Evaluate ( MiddleValues ( Execute; 13601; 1700 ) & "\"\"" ) ; "" ) &
+                            Case ( X  >=  9 ; Evaluate ( MiddleValues ( Execute; 15301; 1700 ) & "\"\"" ) ; "" ) &
+                            Case ( X  >= 10 ; Evaluate ( MiddleValues ( Execute; 17001; 1700 ) & "\"\"" ) ;  "" )) & "^"       
+                            ; [ "^|^"; "¶" ] ; [ "¶"; "¶^" ] ; [ "^¶"; "" ] ; [ "¶^"; "¶" ] ; [ "¶^" ; "" ] ; [ "^" ; "" ] )  
+
+    ] ;
+
+    If( Result = "?" ; 0 ; Result )
+
+    ))
+)

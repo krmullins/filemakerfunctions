@@ -1,0 +1,16 @@
+/*
+SetParam ( values ; key )
+RETURNS:  keyed pair of values 
+*/
+
+Substitute( "¶" 
+  & Substitute( key; [ "^"; ".^" ]; [ "¶"; ".^^" ] ) & "¶" 
+  & Substitute( value; [ "^"; ".^" ]; [ "¶"; ".^^" ] ) & "¶";
+  [ "^"; ".^" ]; [ "¶"; ".^^" ] ) & "¶"
+
+/*
+
+Compliments to Mikhail Edoshin
+http://edoshin.typepad.com/
+
+*/
