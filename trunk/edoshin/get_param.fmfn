@@ -1,0 +1,30 @@
+/*
+GetParam ( values ; key )
+RETURNS:  (mixed) the value associated to the supplied key 
+*/
+
+Case(
+  IsEmpty( values ) or IsEmpty( key ); 
+    "";
+
+  Let( [ 
+    unwrapped values = Substitute( values; [ "¶"; "" ]; [ ".^^"; "¶" ]; [ ".^"; "^" ] );
+    key position = Position( "¶" & values; "¶.^^" & key & ".^^"; 1; 1 ) ];
+
+    If( key position = 0; "";
+      Let( [ 
+        value position = ValueCount( Left( values; key position ) );
+        option string = MiddleValues( values; value position; 1 );
+        start = Position( option string; ".^^"; 1; 2 ) + Length( ".^^" );
+        end = Position( option string; ".^^"; 1; 3 ) ];
+
+        Substitute( Middle( option string; start; end - start ); 
+          [ ".^^"; "¶" ]; [ ".^"; "^" ]; [ "¶"; "" ]; [ ".^^"; "¶" ]; [ ".^"; "^" ] ) ) ) ) )
+
+
+/*
+
+Compliments to Mikhail Edoshin
+http://edoshin.typepad.com/
+
+*/
