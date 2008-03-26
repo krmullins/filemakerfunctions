@@ -1,0 +1,7 @@
+This file includes the template for standards and conventions with regards to maintaining your custom functions in this repository.
+
+--------------------------------------------------
+SPACING & INDENTATION
+--------------------------------------------------
+
+Not decided yet
