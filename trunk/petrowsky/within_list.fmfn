@@ -1,0 +1,6 @@
+/*
+WithinList( listdata; value )
+RETURNS:  (bool) If supplied value is within the supplied listdata 
+*/
+
+PatternCount ( ¶ & listdata & ¶ ; ¶ & value & ¶ )
