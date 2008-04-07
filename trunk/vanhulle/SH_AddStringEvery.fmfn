@@ -1,0 +1,44 @@
+// SH_AddStringEvery ( originalText ; text ; everyPosition ; start ) 
+/*
+Version History
+==========
+20070117 – KVH – Original Version
+
+Description
+=======
+Parameters:
+originalText 
+text: put this text between every x characters 
+everyPosition = every x characters 
+start = left|right 
+
+Usage
+====
+SH_AddStringEvery ( "xxxxx" ; "-" ; 2 ; "left" ) 
+xx-xx-x 
+
+SH_AddStringEvery ( "xxxxx" ; "-" ; 2 ; "right" ) 
+x-xx-xx 
+
+SH_AddStringEvery ( "4123245251524" ; " " ; 3 ; "right" ) 
+4 123 245 251 524 
+*/
+
+
+Let
+(
+[
+firstvalue = If(start="left"; Left(originalText ; everyPosition) ; Right(originalText ; everyPosition) )
+;
+nextText =  If( start="left" ; Right(originalText ; Length(originalText)- everyPosition) ; Left(originalText ; Length(originalText)- everyPosition)  )
+]
+;
+If (
+start="left"
+;
+firstvalue & If(not IsEmpty(nextText) ; text & SH_AddStringEvery(nextText ; text ; everyPosition; start) )
+;
+If(not IsEmpty(nextText) ; SH_AddStringEvery(nextText ; text ; everyPosition; start)  & text ) & firstvalue
+)
+
+)

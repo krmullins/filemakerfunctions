@@ -1,0 +1,61 @@
+// SH_FormatCurrency (theSymbol; Amount; PositionSymbol; NumberOfDigits ;  Digit ; Thousand) 
+/*
+Version History
+==========
+20070117 – KVH – Original Version
+
+Description
+=======
+Parameters:
+theSymbol: e.g; EUR, $, € 
+Amount: 12,0434 
+PositionSymbol: leading | trailing 
+NumberOfDigits: 3 = xxx.xxx 
+Digit = . , 
+Thousand = " ", ".", "," 
+
+Requirements
+========
+Requires Function SH_AddStringEvery ( originalText ; text ; everyPosition ; start ) 
+
+Usage
+====
+SH_FormatCurrency ( "USD" ; 1234567,3 ; "leading" ; 2 ; "." ; "," ) 
+USD 1,234,567.30 
+
+SH_FormatCurrency ( "€" ; 1234567,3 ; "leading" ; 0 ; "," ; " " ) 
+€ 1 234 567 
+
+SH_FormatCurrency ( "EUR" ; 1234567,3 ; "trailing" ; 0 ; "," ; " " ) 
+1 234 567 EUR 
+
+*/
+
+Let 
+( 
+[ 
+pos = If(PositionSymbol = "trailing" ; "trailing" ; "leading" ) 
+; 
+pre = If(pos="leading" ; theSymbol & " " ; "") 
+; 
+post = If(pos="trailing" ; " " & theSymbol ; "" ) 
+; 
+theSystemDigit = Middle(GetAsText(Pi);2;1) 
+; 
+theAmount = Round(Amount;NumberOfDigits) 
+; 
+amountAsString =  GetAsText( theAmount) 
+; 
+afterDigit = If(PatternCount(amountAsString; theSystemDigit) ; Filter( Left( Right(amountAsString ; Length(amountAsString) - Position(amountAsString; theSystemDigit ; 0 ;1) + 1 ) & "0000000000000000000000000000000000000000000000000000"; NumberOfDigits+1) ; "0123456789") ) 
+; 
+theDigit = If(not IsEmpty(afterDigit) ; Digit ) 
+; 
+beforeDigit =  If(PatternCount(amountAsString; theSystemDigit) ; Filter(Left(amountAsString ; Position(amountAsString; theSystemDigit ; 0 ;1) -1) ; "0123456789") ; Filter(amountasstring ; "0123456789") ) 
+; 
+beforeDigitResult = SH_AddStringEvery ( beforeDigit ; Thousand ; 3 ; "right" ) 
+; 
+result = pre & beforeDigitResult &  theDigit & afterdigit & post 
+] 
+; 
+result 
+)
