@@ -1,0 +1,16 @@
+/*
+ValuePosition( match; valuelist )
+RETURNS: (number) The numerical position of the supplied value within the supplied list 
+*/
+
+Let (
+[
+_TheValues = "¶"  & valueList & "¶" ;
+_Position = Position ( _TheValues ; "¶" & match & "¶" ; 1 ; 1 ) ; 
+_Top = Left ( _TheValues ; _Position )
+
+] ;
+
+PatternCount ( _Top ; ¶ )
+
+)
