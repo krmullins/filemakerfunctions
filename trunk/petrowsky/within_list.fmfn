@@ -4,3 +4,10 @@ RETURNS:  (bool) If supplied value is within the supplied listdata
 */
 
 PatternCount ( ¶ & listdata & ¶ ; ¶ & value & ¶ )
+
+
+
+/*
+Thanks to Koen for this suggested alternative
+not isempty(FilterValues(listdata ; value))
+*/
