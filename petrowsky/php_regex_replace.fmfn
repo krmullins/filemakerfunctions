@@ -1,0 +1,15 @@
+/*
+RegexReplace( pattern; options; replacement; field )
+RETURNS:  (string) Uses SmartPill PHP to run perl regular expressions across supplied field 
+*/
+
+Let ([
+//------------------------- VARIABLES
+
+_PHP = "print preg_replace(\"/" & pattern & "/" & options & "\", " & replacement & ", fm_evaluate(\"GetField(\\\"" & field & "\\\")\"));";
+_Result = PHP_Execute( _PHP )
+];
+//------------------------- RESULT
+
+If ( _Result = "?" ; "Please check the field you specified" ; _Result )
+)
