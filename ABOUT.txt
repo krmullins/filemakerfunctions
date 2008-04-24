@@ -1,3 +1,5 @@
 This collection of folders are the personal repositories of several FileMaker Pro developers.
 
 Any developer who knows SVN and follows the few rules can use this resource to manage their custom functions.
+
+Testing for commit messages
