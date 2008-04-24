@@ -2,4 +2,5 @@ This collection of folders are the personal repositories of several FileMaker Pr
 
 Any developer who knows SVN and follows the few rules can use this resource to manage their custom functions.
 
+Now I'm testing this to see if the message goes to the list.
 Testing for commit messages
