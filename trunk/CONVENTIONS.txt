@@ -1,0 +1,1 @@
+This is currently a placeholder to talk about standards and conventions for custom functions.
