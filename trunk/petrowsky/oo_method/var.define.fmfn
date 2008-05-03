@@ -1,0 +1,9 @@
+/*
+Define( name ; value )
+RETURNS:  (bool)
+
+This custom function is a wrapper for the
+assignment(creation) of global variables.
+*/
+
+if ( Evaluate( "Let ( $$" & name & " = " & Quote ( value ) & "; \"\" )" ) = "?" ; 0 ; 1 )

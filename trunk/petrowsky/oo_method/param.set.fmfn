@@ -1,0 +1,19 @@
+/*
+=====================================================
+param.set( key; value)
+
+RETURNS:    (string) keyed pair of values
+DEPS:       none
+NOTES:      Compliments to Mikhail Edoshin http://edoshin.typepad.com/
+=====================================================
+*/
+
+Substitute( "¶" 
+  & Substitute( key;
+                [ "^"; ".^" ];
+                [ "¶"; ".^^" ] ) & "¶" 
+  & Substitute( value;
+                [ "^"; ".^" ];
+                [ "¶"; ".^^" ] ) & "¶";
+  [ "^"; ".^" ]; [ "¶"; ".^^" ]
+) & "¶"
