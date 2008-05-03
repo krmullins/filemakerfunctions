@@ -1,3 +1,26 @@
+/*
+=====================================================
+FunctionName( params; params )
+
+RETURNS:    (bool || string || int) Result of the execution of a script.
+DEPS:       Dependancies on other functions here.
+=====================================================
+*/
+
+Let([ 
+//------------------------- VARIABLES
+_LocalVar = "";
+
+];
+//------------------------- RESULT
+
+1
+
+)
+
+
+
+
 This file includes the template for standards and conventions with regards to maintaining your custom functions in this repository.
 
 --------------------------------------------------
