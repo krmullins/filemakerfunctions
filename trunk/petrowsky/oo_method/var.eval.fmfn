@@ -1,0 +1,16 @@
+/*
+var.eval( contents )
+RETURNS:  (bool)
+
+This custom function evaluates the contents passed as the
+variable declaration part of a Let function. Useful for
+defining global or locally scoped variables.
+*/
+
+If (
+    Evaluate( 
+        "Let ( [" & contents & "]; 1 )"        
+    ) = "?";
+    0;
+    1
+)

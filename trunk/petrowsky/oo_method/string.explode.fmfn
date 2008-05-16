@@ -1,0 +1,6 @@
+/*
+string.explode ( string ; delimiter )
+RETURNS:  (list) of text values 
+*/
+
+Substitute ( string ; delimiter ; ¶ )

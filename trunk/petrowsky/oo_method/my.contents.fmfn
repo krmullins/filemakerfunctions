@@ -1,6 +1,6 @@
 /*
 =====================================================
-my.name( name )
+my.contents( name )
 
 RETURNS:    (string) current layout object contents
 DEPS:       none
