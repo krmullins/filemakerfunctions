@@ -1,0 +1,17 @@
+/*
+window.center ( dimension )
+RETURNS:  Screen pixel value based on dimension 
+*/
+Let(
+[
+_vertical = PatternCount ( dimension ; "vert" );
+_horizontal = PatternCount ( dimension ; "horiz" )
+
+];
+
+Case( _vertical;
+               (Get ( WindowDesktopHeight )  / 2) - (Get ( WindowHeight ) / 2);
+          _horizontal;
+               (Get ( WindowDesktopWidth )  / 2) - (Get ( WindowWidth ) / 2)
+    )
+)

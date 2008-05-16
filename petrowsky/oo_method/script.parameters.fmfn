@@ -3,7 +3,7 @@
 script.parameters( style )
 
 RETURNS:    (mixed) structured fomat of script parameters.
-DEPS:       none
+DEPS:       string.explode()
 NOTES:
 =====================================================
 */
@@ -11,7 +11,7 @@ NOTES:
 Case(
 
 style = "single";   Get( ScriptParameter );
-style = "piped";    String.explode ( Get( ScriptParameter ) ; "|" );
+style = "piped";    string.explode ( Get( ScriptParameter ) ; "|" );
 style = "named";    "Not supported yet";
 style = "xml";      "Not supported yet";
 0

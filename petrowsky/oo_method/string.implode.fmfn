@@ -1,0 +1,6 @@
+/*
+string.implode ( values ; delimiter )
+RETURNS:  (string) delimited text values 
+*/
+
+Substitute ( values ; ¶ ; delimiter )
