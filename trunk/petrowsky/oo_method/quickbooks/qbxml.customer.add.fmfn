@@ -1,0 +1,161 @@
+qbxml.core (
+
+"<CustomerAddRq>¶<CustomerAdd>¶" &
+
+List(
+If( not IsEmpty($Name); "<Name>" & $Name & "</Name>");
+If( not IsEmpty($IsActive); "<IsActive>" & $IsActive & "</IsActive>");
+If( not IsEmpty($ParentRef); "<ParentRef>");
+If( not IsEmpty($ParentRefListID); "  <ListID>" & $ParentRefListID & "</ListID>");
+If( not IsEmpty($ParentRefFullName); "  <FullName>" & $ParentRefFullName & "</FullName>");
+If( not IsEmpty($ParentRef); "</ParentRef>");
+If( not IsEmpty($CompanyName); "<CompanyName>" & $CompanyName & "</CompanyName>");
+If( not IsEmpty($Salutation); "<Salutation>" & $Salutation & "</Salutation>");
+If( not IsEmpty($FirstName); "<FirstName>" & $FirstName & "</FirstName>");
+If( not IsEmpty($MiddleName); "<MiddleName>" & $MiddleName & "</MiddleName>");
+If( not IsEmpty($LastName); "<LastName>" & $LastName & "</LastName>");
+_qbxml.billaddress;
+_qbxml.shipaddress;
+If( not IsEmpty($Phone); "<Phone>" & $Phone & "</Phone>");
+If( not IsEmpty($AltPhone); "<AltPhone>" & $AltPhone & "</AltPhone>");
+If( not IsEmpty($Fax); "<Fax>" & $Fax & "</Fax>");
+If( not IsEmpty($Email); "<Email>" & $Email & "</Email>");
+If( not IsEmpty($Contact); "<Contact>" & $Contact & "</Contact>");
+If( not IsEmpty($AltContact); "<AltContact>" & $AltContact & "</AltContact>");
+If( not IsEmpty($CustomerTypeRef); "<CustomerTypeRef>");
+If( not IsEmpty($CustomerTypeRefListID); "  <ListID>" & $CustomerTypeRefListID & "</ListID>");
+If( not IsEmpty($CustomerTypeRefFullName); "  <FullName>" & $CustomerTypeRefFullName & "</FullName>");
+If( not IsEmpty($CustomerTypeRef); "</CustomerTypeRef>");
+If( not IsEmpty($TermsRef); "<TermsRef>");
+If( not IsEmpty($TermsRefListID); "  <ListID>" & $TermsRefListID & "</ListID>");
+If( not IsEmpty($TermsRefFullName); "  <FullName>" & $TermsRefFullName & "</FullName>");
+If( not IsEmpty($TermsRef); "</TermsRef>");
+If( not IsEmpty($SalesRepRef); "<SalesRepRef>");
+If( not IsEmpty($SalesRepRefListID); "  <ListID>" & $SalesRepRefListID & "</ListID>");
+If( not IsEmpty($SalesRepRefFullName); "  <FullName>" & $SalesRepRefFullName & "</FullName>");
+If( not IsEmpty($SalesRepRef); "</SalesRepRef>");
+If( not IsEmpty($OpenBalance); "<OpenBalance>" & $OpenBalance & "</OpenBalance>");
+If( not IsEmpty($OpenBalanceDate); "<OpenBalanceDate>" & $OpenBalanceDate & "</OpenBalanceDate>");
+If( not IsEmpty($SalesTaxCodeRef); "<SalesTaxCodeRef>");
+If( not IsEmpty($SalesTaxCodeRefListID); "  <ListID>" & $SalesTaxCodeRefListID & "</ListID>");
+If( not IsEmpty($SalesTaxCodeRefFullName); "  <FullName>" & $SalesTaxCodeRefFullName & "</FullName>");
+If( not IsEmpty($SalesTaxCodeRef); "</SalesTaxCodeRef>");
+If( not IsEmpty($ItemSalesTaxRef); "<ItemSalesTaxRef>");
+If( not IsEmpty($ItemSalesTaxRefListID); "  <ListID>" & $ItemSalesTaxRefListID & "</ListID>");
+If( not IsEmpty($ItemSalesTaxRefFullName); "  <FullName>" & $ItemSalesTaxRefFullName & "</FullName>");
+If( not IsEmpty($ItemSalesTaxRef); "</ItemSalesTaxRef>");
+If( not IsEmpty($ResaleNumber); "<ResaleNumber>" & $ResaleNumber & "</ResaleNumber>");
+If( not IsEmpty($AccountNumber); "<AccountNumber>" & $AccountNumber & "</AccountNumber>");
+If( not IsEmpty($CreditLimit); "<CreditLimit>" & $CreditLimit & "</CreditLimit>");
+If( not IsEmpty($PreferredPaymentMethodRef); "<PreferredPaymentMethodRef>");
+If( not IsEmpty($PreferredPaymentMethodRefListID); "  <ListID>" & $PreferredPaymentMethodRefListID & "</ListID>");
+If( not IsEmpty($PreferredPaymentMethodRefFullName); "  <FullName>" & $PreferredPaymentMethodRefFullName & "</FullName>");
+If( not IsEmpty($PreferredPaymentMethodRef); "</PreferredPaymentMethodRef>");
+If( not IsEmpty($CreditCardInfo); "<CreditCardInfo>");
+If( not IsEmpty($CreditCardInfoCreditCardNumber); "  <CreditCardNumber>" & $CreditCardInfoCreditCardNumber & "</CreditCardNumber>");
+If( not IsEmpty($CreditCardInfoExpirationMonth); "  <ExpirationMonth>" & $CreditCardInfoExpirationMonth & "</ExpirationMonth>");
+If( not IsEmpty($CreditCardInfoExpirationYear); "  <ExpirationYear>" & $CreditCardInfoExpirationYear & "</ExpirationYear>");
+If( not IsEmpty($CreditCardInfoNameOnCard); "  <NameOnCard>" & $CreditCardInfoNameOnCard & "</NameOnCard>");
+If( not IsEmpty($CreditCardInfoCreditCardAddress); "  <CreditCardAddress>" & $CreditCardInfoCreditCardAddress & "</CreditCardAddress>");
+If( not IsEmpty($CreditCardInfoCreditCardPostalCode); "  <CreditCardPostalCode>" & $CreditCardInfoCreditCardPostalCode & "</CreditCardPostalCode>");
+If( not IsEmpty($CreditCardInfo); "</CreditCardInfo>");
+If( not IsEmpty($JobStatus); "<JobStatus>" & $JobStatus & "</JobStatus>");
+If( not IsEmpty($JobStartDate); "<JobStartDate>" & $JobStartDate & "</JobStartDate>");
+If( not IsEmpty($JobProjectedEndDate); "<JobProjectedEndDate>" & $JobProjectedEndDate & "</JobProjectedEndDate>");
+If( not IsEmpty($JobEndDate); "<JobEndDate>" & $JobEndDate & "</JobEndDate>");
+If( not IsEmpty($JobDesc); "<JobDesc>" & $JobDesc & "</JobDesc>");
+If( not IsEmpty($JobTypeRef); "<JobTypeRef>");
+If( not IsEmpty($JobTypeRefListID); "  <ListID>" & $JobTypeRefListID & "</ListID>");
+If( not IsEmpty($JobTypeRefFullName); "  <FullName>" & $JobTypeRefFullName & "</FullName>");
+If( not IsEmpty($JobTypeRef); "</JobTypeRef>");
+If( not IsEmpty($Notes); "<Notes>" & $Notes & "</Notes>");
+If( not IsEmpty($PriceLevelRef); "<PriceLevelRef>");
+If( not IsEmpty($PriceLevelRefListID); "  <ListID>" & $PriceLevelRefListID & "</ListID>");
+If( not IsEmpty($PriceLevelRefFullName); "  <FullName>" & $PriceLevelRefFullName & "</FullName>");
+If( not IsEmpty($PriceLevelRef); "</PriceLevelRef>"))
+
+&
+
+"¶</CustomerAdd>¶</CustomerAddRq>"
+)
+
+
+
+/*
+Use the following Let() within a SetVariable
+script step to assign all of the values at one time
+
+Let ( [
+$Name							= _ ;
+$IsActive							= _ ;
+$ParentRef							= _ ;
+$ParentRefListID						= _ ;
+$ParentRefFullName					= _ ;
+$ParentRef							= _ ;
+$CompanyName						= _ ;
+$Salutation						= _ ;
+$FirstName						= _ ;
+$MiddleName						= _ ;
+$LastName							= _ ;
+$Phone							= _ ;
+$AltPhone							= _ ;
+$Fax								= _ ;
+$Email							= _ ;
+$Contact							= _ ;
+$AltContact						= _ ;
+$CustomerTypeRef					= _ ;
+$CustomerTypeRefListID				= _ ;
+$CustomerTypeRefFullName			= _ ;
+$CustomerTypeRef					= _ ;
+$TermsRef							= _ ;
+$TermsRefListID						= _ ;
+$TermsRefFullName					= _ ;
+$TermsRef							= _ ;
+$SalesRepRef						= _ ;
+$SalesRepRefListID					= _ ;
+$SalesRepRefFullName				= _ ;
+$SalesRepRef						= _ ;
+$OpenBalance						= _ ;
+$OpenBalanceDate					= _ ;
+$SalesTaxCodeRef					= _ ;
+$SalesTaxCodeRefListID				= _ ;
+$SalesTaxCodeRefFullName				= _ ;
+$SalesTaxCodeRef					= _ ;
+$ItemSalesTaxRef					= _ ;
+$ItemSalesTaxRefListID				= _ ;
+$ItemSalesTaxRefFullName				= _ ;
+$ItemSalesTaxRef					= _ ;
+$ResaleNumber						= _ ;
+$AccountNumber					= _ ;
+$CreditLimit						= _ ;
+$PreferredPaymentMethodRef			= _ ;
+$PreferredPaymentMethodRefListID		= _ ;
+$PreferredPaymentMethodRefFullName		= _ ;
+$PreferredPaymentMethodRef			= _ ;
+$CreditCardInfo						= _ ;
+$CreditCardInfoCreditCardNumber		= _ ;
+$CreditCardInfoExpirationMonth			= _ ;
+$CreditCardInfoExpirationYear			= _ ;
+$CreditCardInfoNameOnCard			= _ ;
+$CreditCardInfoCreditCardAddress		= _ ;
+$CreditCardInfoCreditCardPostalCode		= _ ;
+$CreditCardInfo						= _ ;
+$JobStatus							= _ ;
+$JobStartDate						= _ ;
+$JobProjectedEndDate					= _ ;
+$JobEndDate						= _ ;
+$JobDesc							= _ ;
+$JobTypeRef						= _ ;
+$JobTypeRefListID					= _ ;
+$JobTypeRefFullName					= _ ;
+$JobTypeRef						= _ ;
+$Notes							= _ ;
+$PriceLevelRef						= _ ;
+$PriceLevelRefListID					= _ ;
+$PriceLevelRefFullName				= _ ;
+$PriceLevelRef						=_
+];
+1
+)
+
+*/

@@ -1,17 +1,23 @@
 /*
-window.center ( dimension )
-RETURNS:  Screen pixel value based on dimension 
+=====================================================
+window.center( dimension )
+
+RETURNS:    (int) Screen pixel value based on dimension.
+DEPS:       At least one Script triggering plugin.
+            Supported are SmartPill PHP plugin, zippScript
+NOTES:
+=====================================================
 */
-Let(
-[
-_vertical = PatternCount ( dimension ; "vert" );
-_horizontal = PatternCount ( dimension ; "horiz" )
 
-];
+Let( [
+    _vertical = PatternCount ( dimension ; "vert" );
+    _horizontal = PatternCount ( dimension ; "horiz" )
 
-Case( _vertical;
-               (Get ( WindowDesktopHeight )  / 2) - (Get ( WindowHeight ) / 2);
+    ];
+
+    Case( _vertical;
+                   (Get ( WindowDesktopHeight )  / 2) - (Get ( WindowHeight ) / 2);
           _horizontal;
-               (Get ( WindowDesktopWidth )  / 2) - (Get ( WindowWidth ) / 2)
+                   (Get ( WindowDesktopWidth )  / 2) - (Get ( WindowWidth ) / 2)
     )
 )

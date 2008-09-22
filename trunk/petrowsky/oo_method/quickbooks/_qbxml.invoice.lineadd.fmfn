@@ -1,0 +1,38 @@
+// subpart to the invoice query
+
+List(
+"<InvoiceLineAdd" & If( not IsEmpty(macrotype); " defMacro=\"" & macrotype & "\"" ) & ">";
+If( not IsEmpty($ItemRef); "  <ItemRef>");
+If( not IsEmpty($ItemRefListID); "    <ListID>" & $ItemRefListID & "</ListID>");
+If( not IsEmpty($ItemRefFullName); "    <FullName>" & $ItemRefFullName & "</FullName>");
+If( not IsEmpty($ItemRef); "  </ItemRef>");
+If( not IsEmpty($Desc); "  <Desc>" & $Desc & "</Desc>");
+If( not IsEmpty($Quantity); "  <Quantity>" & $Quantity & "</Quantity>");
+If( not IsEmpty($UnitOfMeasure); "  <UnitOfMeasure>" & $UnitOfMeasure & "</UnitOfMeasure>");
+If( not IsEmpty($Rate); "");
+If( not IsEmpty($ClassRef); "  <ClassRef>");
+If( not IsEmpty($ClassRefListID); "    <ListID>" & $ClassRefListID & "</ListID>");
+If( not IsEmpty($ClassRefFullName); "    <FullName>" & $ClassRefFullName & "</FullName>");
+If( not IsEmpty($ClassRef); "  </ClassRef>");
+If( not IsEmpty($Amount); "  <Amount>" & $Amount & "</Amount>");
+If( not IsEmpty($ServiceDate); "  <ServiceDate>" & $ServiceDate & "</ServiceDate>");
+If( not IsEmpty($SalesTaxCodeRef); "  <SalesTaxCodeRef>");
+If( not IsEmpty($SalesTaxCodeRefListID); "    <ListID>" & $SalesTaxCodeRefListID & "</ListID>");
+If( not IsEmpty($SalesTaxCodeRefFullName); "    <FullName>" & $SalesTaxCodeRefFullName & "</FullName>");
+If( not IsEmpty($SalesTaxCodeRef); "  </SalesTaxCodeRef>");
+If( not IsEmpty($OverrideItemAccountRef); "  <OverrideItemAccountRef>");
+If( not IsEmpty($OverrideItemAccountRefListID); "    <ListID>" & $OverrideItemAccountRefListID & "</ListID>");
+If( not IsEmpty($OverrideItemAccountRefFullName); "    <FullName>" & $OverrideItemAccountRefFullName & "</FullName>");
+If( not IsEmpty($OverrideItemAccountRef); "  </OverrideItemAccountRef>");
+If( not IsEmpty($Other1); "  <Other1>" & $Other1 & "</Other1>");
+If( not IsEmpty($Other2); "  <Other2>" & $Other2 & "</Other2>");
+If( not IsEmpty($LinkToTxn); "  <LinkToTxn>");
+If( not IsEmpty($LinkToTxnTxnID); "    <TxnID>" & $LinkToTxnTxnID & "</TxnID>");
+If( not IsEmpty($LinkToTxnTxnLineID); "    <TxnLineID>" & $LinkToTxnTxnLineID & "</TxnLineID>");
+If( not IsEmpty($LinkToTxn); "  </LinkToTxn>");
+If( not IsEmpty($DataExt); "  <DataExt>");
+If( not IsEmpty($DataExtOwnerID); "    <OwnerID>GU" & $DataExtOwnerID & "</OwnerID>");
+If( not IsEmpty($DataExtDataExtName); "    <DataExtName>" & $DataExtDataExtName & "</DataExtName>");
+If( not IsEmpty($DataExtDataExtValue); "    <DataExtValue>" & $DataExtDataExtValue & "</DataExtValue>");
+If( not IsEmpty($DataExt); "  </DataExt>");
+"</InvoiceLineAdd>")

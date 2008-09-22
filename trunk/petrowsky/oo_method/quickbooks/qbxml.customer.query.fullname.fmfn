@@ -1,0 +1,11 @@
+// Need to put in control for metaData="ENUMTYPE" iterator="ENUMTYPE" iteratorID="UUIDTYPE"
+
+
+qbxml.core (
+
+List(
+"<CustomerQueryRq>";
+"  <FullName>" & fullname & "</FullName>";
+"</CustomerQueryRq>")
+
+)

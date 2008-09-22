@@ -1,0 +1,98 @@
+// This version of the qbxml is based off the <Rate> option
+// Other options are <RatePercent> and <PriceLevelRef>
+
+qbxml.core (
+
+"<SalesReceiptAddRq>¶" &
+
+List(
+"<SalesReceiptAdd" & If( not IsEmpty(macrotype); " defMacro=\"" & macrotype & "\"" ) & ">";
+If( not IsEmpty($CustomerRef); "    <CustomerRef>");
+If( not IsEmpty($CustomerRefListID); "      <ListID>" & $CustomerRefListID & "</ListID>");
+If( not IsEmpty($CustomerRefFullName); "      <FullName>" & $CustomerRefFullName & "</FullName>");
+If( not IsEmpty($CustomerRef); "    </CustomerRef>");
+If( not IsEmpty($ClassRef); "    <ClassRef>");
+If( not IsEmpty($ClassRefListID); "      <ListID>" & $ClassRefListID & "</ListID>");
+If( not IsEmpty($ClassRefFullName); "      <FullName>" & $ClassRefFullName & "</FullName>");
+If( not IsEmpty($ClassRef); "    </ClassRef>");
+If( not IsEmpty($TemplateRef); "    <TemplateRef>");
+If( not IsEmpty($TemplateRefListID); "      <ListID>" & $TemplateRefListID & "</ListID>");
+If( not IsEmpty($TemplateRefFullName); "      <FullName>" & $TemplateRefFullName & "</FullName>");
+If( not IsEmpty($TemplateRef); "    </TemplateRef>");
+If( not IsEmpty($TxnDate); "    <TxnDate>" & $TxnDate & "</TxnDate>");
+If( not IsEmpty($RefNumber); "    <RefNumber>" & $RefNumber & "</RefNumber>");
+_qbxml.billaddress;
+_qbxml.shipaddress;
+If( not IsEmpty($IsPending); "    <IsPending>" & $IsPending & "</IsPending>");
+If( not IsEmpty($CheckNumber); "    <CheckNumber>" & $CheckNumber & "</CheckNumber>");
+If( not IsEmpty($PaymentMethodRef); "    <PaymentMethodRef>");
+If( not IsEmpty($PaymentMethodRefListID); "      <ListID>" & $PaymentMethodRefListID & "</ListID>");
+If( not IsEmpty($PaymentMethodRefFullName); "      <FullName>" & $PaymentMethodRefFullName & "</FullName>");
+If( not IsEmpty($PaymentMethodRef); "    </PaymentMethodRef>");
+If( not IsEmpty($DueDate); "    <DueDate>" & $DueDate & "</DueDate>");
+If( not IsEmpty($SalesRepRef); "    <SalesRepRef>");
+If( not IsEmpty($SalesRepRefListID); "      <ListID>" & $SalesRepRefListID & "</ListID>");
+If( not IsEmpty($SalesRepRefFullName); "      <FullName>" & $SalesRepRefFullName & "</FullName>");
+If( not IsEmpty($SalesRepRef); "    </SalesRepRef>");
+If( not IsEmpty($ShipDate); "    <ShipDate>" & $ShipDate & "</ShipDate>");
+If( not IsEmpty($ShipMethodRef); "    <ShipMethodRef>");
+If( not IsEmpty($ShipMethodRefListID); "      <ListID>" & $ShipMethodRefListID & "</ListID>");
+If( not IsEmpty($ShipMethodRefFullName); "      <FullName>" & $ShipMethodRefFullName & "</FullName>");
+If( not IsEmpty($ShipMethodRef); "    </ShipMethodRef>");
+If( not IsEmpty($FOB); "    <FOB>" & $FOB & "</FOB>");
+If( not IsEmpty($ItemSalesTaxRef); "    <ItemSalesTaxRef>");
+If( not IsEmpty($ItemSalesTaxRefListID); "      <ListID>" & $ItemSalesTaxRefListID & "</ListID>");
+If( not IsEmpty($ItemSalesTaxRefFullName); "      <FullName>" & $ItemSalesTaxRefFullName & "</FullName>");
+If( not IsEmpty($ItemSalesTaxRef); "    </ItemSalesTaxRef>");
+If( not IsEmpty($Memo); "    <Memo>" & $Memo & "</Memo>");
+If( not IsEmpty($CustomerMsgRef); "    <CustomerMsgRef>");
+If( not IsEmpty($CustomerMsgRefListID); "      <ListID>" & $CustomerMsgRefListID & "</ListID>");
+If( not IsEmpty($CustomerMsgRefFullName); "      <FullName>" & $CustomerMsgRefFullName & "</FullName>");
+If( not IsEmpty($CustomerMsgRef); "    </CustomerMsgRef>");
+If( not IsEmpty($IsToBePrinted); "    <IsToBePrinted>" & $IsToBePrinted & "</IsToBePrinted>");
+If( not IsEmpty($IsToBeEmailed); "    <IsToBeEmailed>" & $IsToBeEmailed & "</IsToBeEmailed>");
+If( not IsEmpty($CustomerSalesTaxCodeRef); "    <CustomerSalesTaxCodeRef>");
+If( not IsEmpty($CustomerSalesTaxCodeRefListID); "      <ListID>" & $CustomerSalesTaxCodeRefListID & "</ListID>");
+If( not IsEmpty($CustomerSalesTaxCodeRefFullName); "      <FullName>" & $CustomerSalesTaxCodeRefFullName & "</FullName>");
+If( not IsEmpty($CustomerSalesTaxCodeRef); "    </CustomerSalesTaxCodeRef>");
+If( not IsEmpty($DepositToAccountRef); "    <DepositToAccountRef>");
+If( not IsEmpty($DepositToAccountRefListID); "      <ListID>" & $DepositToAccountRefListID & "</ListID>");
+If( not IsEmpty($DepositToAccountRefFullName); "      <FullName>" & $DepositToAccountRefFullName & "</FullName>");
+If( not IsEmpty($DepositToAccountRef); "    </DepositToAccountRef>");
+If( not IsEmpty($CreditCardTxnInfo); "    <CreditCardTxnInfo>");
+If( not IsEmpty($CreditCardTxnInputInfo); "      <CreditCardTxnInputInfo>");
+If( not IsEmpty($CreditCardTxnInputInfoCreditCardNumber); "        <CreditCardNumber>" & $CreditCardTxnInputInfoCreditCardNumber & "</CreditCardNumber>");
+If( not IsEmpty($CreditCardTxnInputInfoExpirationMonth); "        <ExpirationMonth>" & $CreditCardTxnInputInfoExpirationMonth & "</ExpirationMonth>");
+If( not IsEmpty($CreditCardTxnInputInfoExpirationYear); "        <ExpirationYear>" & $CreditCardTxnInputInfoExpirationYear & "</ExpirationYear>");
+If( not IsEmpty($CreditCardTxnInputInfoNameOnCard); "        <NameOnCard>" & $CreditCardTxnInputInfoNameOnCard & "</NameOnCard>");
+If( not IsEmpty($CreditCardTxnInputInfoCreditCardAddress); "        <CreditCardAddress>" & $CreditCardTxnInputInfoCreditCardAddress & "</CreditCardAddress>");
+If( not IsEmpty($CreditCardTxnInputInfoCreditCardPostalCode); "        <CreditCardPostalCode>" & $CreditCardTxnInputInfoCreditCardPostalCode & "</CreditCardPostalCode>");
+If( not IsEmpty($CreditCardTxnInputInfoCommercialCardCode); "        <CommercialCardCode>" & $CreditCardTxnInputInfoCommercialCardCode & "</CommercialCardCode>");
+If( not IsEmpty($CreditCardTxnInputInfoTransactionMode); "        <TransactionMode>" & $CreditCardTxnInputInfoTransactionMode & "</TransactionMode>");
+If( not IsEmpty($CreditCardTxnInputInfoCreditCardTxnType); "        <CreditCardTxnType>" & $CreditCardTxnInputInfoCreditCardTxnType & "</CreditCardTxnType>");
+If( not IsEmpty($CreditCardTxnInputInfo); "      </CreditCardTxnInputInfo>");
+If( not IsEmpty($CreditCardTxnResultInfo); "      <CreditCardTxnResultInfo>");
+If( not IsEmpty($CreditCardTxnResultInfoResultCode); "        <ResultCode>" & $CreditCardTxnResultInfoResultCode & "</ResultCode>");
+If( not IsEmpty($CreditCardTxnResultInfoResultMessage); "        <ResultMessage>" & $CreditCardTxnResultInfoResultMessage & "</ResultMessage>");
+If( not IsEmpty($CreditCardTxnResultInfoCreditCardTransID); "        <CreditCardTransID>" & $CreditCardTxnResultInfoCreditCardTransID & "</CreditCardTransID>");
+If( not IsEmpty($CreditCardTxnResultInfoMerchantAccountNumber); "        <MerchantAccountNumber>" & $CreditCardTxnResultInfoMerchantAccountNumber & "</MerchantAccountNumber>");
+If( not IsEmpty($CreditCardTxnResultInfoAuthorizationCode); "        <AuthorizationCode>" & $CreditCardTxnResultInfoAuthorizationCode & "</AuthorizationCode>");
+If( not IsEmpty($CreditCardTxnResultInfoAVSStreet); "        <AVSStreet>" & $CreditCardTxnResultInfoAVSStreet & "</AVSStreet>");
+If( not IsEmpty($CreditCardTxnResultInfoAVSZip); "        <AVSZip>" & $CreditCardTxnResultInfoAVSZip & "</AVSZip>");
+If( not IsEmpty($CreditCardTxnResultInfoCardSecurityCodeMatch); "        <CardSecurityCodeMatch>" & $CreditCardTxnResultInfoCardSecurityCodeMatch & "</CardSecurityCodeMatch>");
+If( not IsEmpty($CreditCardTxnResultInfoReconBatchID); "        <ReconBatchID>" & $CreditCardTxnResultInfoReconBatchID & "</ReconBatchID>");
+If( not IsEmpty($CreditCardTxnResultInfoPaymentGroupingCode); "        <PaymentGroupingCode>" & $CreditCardTxnResultInfoPaymentGroupingCode & "</PaymentGroupingCode>");
+If( not IsEmpty($CreditCardTxnResultInfoPaymentStatus); "        <PaymentStatus>" & $CreditCardTxnResultInfoPaymentStatus & "</PaymentStatus>");
+If( not IsEmpty($CreditCardTxnResultInfoTxnAuthorizationTime); "");
+If( not IsEmpty($CreditCardTxnResultInfoTxnAuthorizationStamp); "        <TxnAuthorizationStamp>" & $CreditCardTxnResultInfoTxnAuthorizationStamp & "</TxnAuthorizationStamp>");
+If( not IsEmpty($CreditCardTxnResultInfoClientTransID); "        <ClientTransID>" & $CreditCardTxnResultInfoClientTransID & "</ClientTransID>");
+If( not IsEmpty($CreditCardTxnResultInfo); "      </CreditCardTxnResultInfo>");
+If( not IsEmpty($CreditCardTxnInfo); "    </CreditCardTxnInfo>");
+If( not IsEmpty($Other); "    <Other>" & $Other & "</Other>");
+items;
+"</SalesReceiptAdd>")
+
+&
+
+"¶</SalesReceiptAddRq>"
+)

@@ -1,0 +1,27 @@
+/*
+Developer ()
+RETURNS:  Boolean result based on checking for a given account, privelege set or other critera - you decide (see notes at bottom). 
+DEPS: list.valueWithin()
+*/
+
+Let([ 
+//------------------------- VARIABLES
+
+_Developers = List( ""; "Admin" )  // Add the names of the accounts which are valid developer accounts
+
+];
+//------------------------- RESULT
+
+list.valueWithin ( _Developers ; env.get("account") )
+or
+Get ( PrivilegeSetName ) = "[Full Access]"
+
+)
+
+/*
+Note: if you're paranoid about security, then you need to
+know that a super adept hacker would know how to scrape
+variable values out of memory, despite them not being shown
+by FileMaker. Anything stored in global variables $$ can be
+captured - although you REALLY have to know a lot to do it.
+*/

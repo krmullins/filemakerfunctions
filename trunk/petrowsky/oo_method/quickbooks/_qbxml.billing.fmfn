@@ -1,0 +1,36 @@
+List(
+If( not IsEmpty($BillAddress); "<BillAddress>");
+If( not IsEmpty($BillAddressAddr1); "  <Addr1>" & $BillAddressAddr1 & "</Addr1>");
+If( not IsEmpty($BillAddressAddr2); "  <Addr2>" & $BillAddressAddr2 & "</Addr2>");
+If( not IsEmpty($BillAddressAddr3); "  <Addr3>" & $BillAddressAddr3 & "</Addr3>");
+If( not IsEmpty($BillAddressAddr4); "  <Addr4>" & $BillAddressAddr4 & "</Addr4>");
+If( not IsEmpty($BillAddressAddr5); "  <Addr5>" & $BillAddressAddr5 & "</Addr5>");
+If( not IsEmpty($BillAddressCity); "  <City>" & $BillAddressCity & "</City>");
+If( not IsEmpty($BillAddressState); "  <State>" & $BillAddressState & "</State>");
+If( not IsEmpty($BillAddressPostalCode); "  <PostalCode>" & $BillAddressPostalCode & "</PostalCode>");
+If( not IsEmpty($BillAddressCountry); "  <Country>" & $BillAddressCountry & "</Country>");
+If( not IsEmpty($BillAddressNote); "  <Note>" & $BillAddressNote & "</Note>");
+If( not IsEmpty($BillAddress); "</BillAddress>"))
+
+
+/*
+Use the following Let() within a SetVariable
+script step to assign all of the values at one time
+
+Let ( [
+$BillAddressAddr1		= 0;
+$BillAddressAddr2		= 0;
+$BillAddressAddr3		= 0;
+$BillAddressAddr4		= 0;
+$BillAddressAddr5		= 0;
+$BillAddressCity		= 0;
+$BillAddressState		= 0;
+$BillAddressPostalCode	= 0;
+$BillAddressCountry		= 0;
+$BillAddressNote		= 0;
+$BillAddress			= 0
+];
+1
+)
+
+*/
