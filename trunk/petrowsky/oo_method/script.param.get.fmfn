@@ -1,0 +1,50 @@
+/*
+=====================================================
+script.param.get( values; key)
+
+RETURNS:    (mixed) the value associated to the supplied key
+DEPS:       none
+NOTES:      Compliments to Mikhail Edoshin http://edoshin.typepad.com/
+=====================================================
+*/
+
+Case(
+    IsEmpty( values ) or IsEmpty( key ); 
+        "";
+
+    Let(
+    [
+        //------------------------- VARIABLES
+        
+        _UnwrappedValues = Substitute( values;
+                                        [ "¶"; "" ];
+                                        [ ".^^"; "¶" ];
+                                        [ ".^"; "^" ] );
+        _KeyPosition = Position( "¶" & values; "¶.^^" & key & ".^^"; 1; 1 )
+    ];
+
+        //------------------------- RESULT
+        
+        If( _KeyPosition = 0; "";
+          Let(
+                [
+                    //------------------------- VARIABLES
+                    
+                    _ValuePosition = ValueCount( Left( values; _KeyPosition ) );
+                    _OptionString = MiddleValues( values; _ValuePosition; 1 );
+                    _Start = Position( _OptionString; ".^^"; 1; 2 ) + Length( ".^^" );
+                    _End = Position( _OptionString; ".^^"; 1; 3 )
+                ];
+
+                    //------------------------- RESULT
+                    
+                    Substitute( Middle( _OptionString; _Start; _End - _Start ); 
+                                [ ".^^"; "¶" ];
+                                [ ".^"; "^" ];
+                                [ "¶"; "" ];
+                                [ ".^^"; "¶" ];
+                                [ ".^"; "^" ] )
+               )
+        ) 
+    )
+)
