@@ -1,0 +1,110 @@
+//---------------------------------------------------------------------------------------//
+// script.parameters.assign (  )
+// by Alexander Zueiv
+// October 1, 2006
+// Adapted by Matt Petrowsky
+//
+// This function defines local variable ($) for every parameter specified in the current script's name.
+// To refer to any parameter within the script you will only need to specify it's name with leading $.
+// It also validates every "required" parameter for "not IsEmpty()" and returns "1" if all succeeded.
+//
+// This function does not parse script parameters itself. It is a "wrapper" for your own custom function;
+// it's supposed to call the custom function that you do currently use to get a parameter's value by it's
+// name. This should work well whatever method of sending parameters do you currently use. FMP will
+// show you where to put your function call when you click OK to save this function.
+//
+// Script name format:
+//
+//    Cool Scrip [ paramA ; ( paramB | paramC ) {; paramD} ]
+//
+// Script code sample:
+//
+//    If [ script.parameters.assign ]
+//       Set Field [ Field1 ; $paramA ]
+//       Set Field [ Field2 ; If ( IsEmpty ( $paramB ) ; $paramC ; $paramB ) ]
+//       If [ not IsEmpty ( $paramD ) ]
+//          Set Field [ Field3 ; $paramD ]
+//       End If
+//    Else
+//       Show Custom Dialog [ Get ( ScriptName ) ; "Error! Some script parameter is missing." ]
+//    End If
+//
+// This script will work only if ( paramA and ( paramB or paramC ) ) aren't empty, otherwise it will show
+// the error message.
+//
+// To specify required validation logic for "alternative" parameters they must be enclosed in parentheses.
+// The "optional" parameters section {} must appear at the end.
+//
+//---------------------------------------------------------------------------------------//
+
+Let ( [
+
+// adjust these variables to match your scripts naming style
+
+_BEGIN  = "[" ;   // beginning of parameters definition
+_BREAK  = ";" ;   // regular parameters separator (and)
+_ALT    = "|" ;   // alternative parameters separator (or)
+_OPTION = "{" ;   // beginning of optional parameters section
+_END    = "]" ;   // end of parameters definition
+
+_SCRIPT = Get ( ScriptName ) ;
+
+_PARAMS = Middle ( _SCRIPT ;
+   Position ( _SCRIPT ; _BEGIN ; 1 ; 1 ) +1 ;
+   Position ( _SCRIPT ; _END ; Length ( _SCRIPT ) ; -1 ) - Position ( _SCRIPT ; _BEGIN ; 1 ; 1 ) -1 )
+
+] ;
+
+Case (
+
+//---------------------------------------------------------------------------------------//
+
+$_SCRIPT_PARAMETERS_COUNTER >= 1 ;
+
+  Let ( [
+
+    NAME = MiddleWords ( _PARAMS ; $_SCRIPT_PARAMETERS_COUNTER ; 1 ) ;
+    $_SCRIPT_PARAMETERS_COUNTER = $_SCRIPT_PARAMETERS_COUNTER - 1 ;
+
+    // put your function call for getting script parameters here
+    VALUE = script.param.get ( Get( ScriptParameter ); NAME )
+
+  ] ;
+
+    Evaluate ( "Let($" & NAME & "=" & Quote ( VALUE ) & ";\"\")" ) &
+
+    If ( $_SCRIPT_PARAMETERS_COUNTER >= 1 ; script.parameters.assign ) // recursive call to this function
+
+  ) ; // End Let
+
+//---------------------------------------------------------------------------------------//
+
+WordCount ( _PARAMS ) >= 1 ;
+
+Let ( [
+
+$_SCRIPT_PARAMETERS_COUNTER = WordCount ( _PARAMS ) ;
+TEMP = script.parameters.assign ; // recursive call to this function
+TEMP = Substitute ( _PARAMS ; [ " " ; "" ] ; [ "$" ; "" ] ) ;
+TEMP = If ( Position ( TEMP ; _OPTION ; 1 ; 1 ) ; Left ( TEMP ; Position ( TEMP ; _OPTION ; 1 ; 1 ) -1 ) ; TEMP ) ;
+TEMP = If ( Left ( TEMP ; 1 ) = "(" ; "(not IsEmpty($" & Right ( TEMP ; Length ( TEMP ) -1 ) ; "not IsEmpty($" & TEMP ) ;
+VALIDATION = Substitute ( TEMP ;
+   [ _BREAK & "(" ; ") and (not IsEmpty($" ] ;
+   [ _BREAK ; ") and not IsEmpty($" ] ;
+   [ _ALT ; ") or not IsEmpty($" ] ) & ")" ;
+RESULT = If ( VALIDATION = "not IsEmpty($)" ; 1 ; Evaluate ( VALIDATION ) )
+
+] ;
+
+RESULT
+
+// If you use any Script Trigger or Dialog plug-in you could show the error message right here:
+// If ( RESULT <> 1 ; ...
+
+) // End Let
+
+//---------------------------------------------------------------------------------------//
+
+) // End Case
+
+) // End Let
