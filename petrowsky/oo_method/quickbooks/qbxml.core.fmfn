@@ -1,0 +1,3 @@
+// The core wrapper for qbxml queries
+
+"<?xml version=\"1.0\" encoding=\"utf-8\"?>¶<?qbxml version=\"7.0\"?>¶<QBXML>¶  <QBXMLMsgsRq onError=\"stopOnError\">¶    " & query & "¶  </QBXMLMsgsRq>¶</QBXML>"

@@ -1,0 +1,40 @@
+This is a code snipped from
+http://www.fmforums.com/forum/showtopic.php?tid/195673/
+Provided by Jesse Barnum for querying USPS zipcodes via
+360works ScriptMaster plugin
+
+URLConnection conn = new URL("http://zip4.usps.com/zip4/zcl_0_results.jsp" ).openConnection();
+
+//Send POST data
+conn.setDoOutput( true );
+Writer w = new OutputStreamWriter( new BufferedOutputStream( conn.getOutputStream() ) );
+w.write( "address2=" + URLEncoder.encode( _addr2 ) );
+w.write( "&address1=" + URLEncoder.encode( _addr1 ) );
+w.write( "&city=" + URLEncoder.encode( _city ) );
+w.write( "&state=" + URLEncoder.encode( _state ) );
+w.write( "&visited=1&pagenumber=0&firmname=&urbanization=&zip5=" );
+w.close();
+
+//Read result
+String _html = conn.getInputStream().getText();
+
+// get rid of \r,  \n and \t
+_html = _html.replaceAll("(\r\n|\r|\n|\n\r|\t)", "");
+// replace each & nbsp; and <br /> with a space
+_html = _html.replaceAll("(& nbsp;)", " ");
+_html = _html.replaceAll("(<br />)", " ");
+
+_output = ""
+//grab the addresses w/ zips
+match = _html =~  /<td headers=.*?>(.*?)<\/td>/
+if(match.count == 0) {return "None found."}
+for(i in 0..match.count-1)
+{
+	_output += match[i][1]
+	if(i % 2 == 0) 
+		{_output += " "}
+	else
+		{_output += "\n"}
+}
+
+return _output

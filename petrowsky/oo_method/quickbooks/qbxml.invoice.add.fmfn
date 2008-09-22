@@ -1,0 +1,71 @@
+// macrotype; items
+// This version of the qbxml is based off the <Rate> option
+// Other options are <RatePercent> and <PriceLevelRef>
+
+qbxml.core (
+
+"<InvoiceAddRq>¶" &
+
+List(
+"<InvoiceAdd" & If( not IsEmpty(macrotype); " defMacro=\"" & macrotype & "\"" ) & ">";
+"  <CustomerRef>";
+If( not IsEmpty($CustomerRefListID); "    <ListID>" & $CustomerRefListID & "</ListID>");
+If( not IsEmpty($CustomerRefFullName); "    <FullName>" & $CustomerRefFullName & "</FullName>");
+"  </CustomerRef>";
+If( not IsEmpty($ClassRef); "  <ClassRef>");
+If( not IsEmpty($ClassRefListID); "    <ListID>" & $ClassRefListID & "</ListID>");
+If( not IsEmpty($ClassRefFullName); "    <FullName>" & $ClassRefFullName & "</FullName>");
+If( not IsEmpty($ClassRef); "  </ClassRef>");
+If( not IsEmpty($ARAccountRef); "  <ARAccountRef>");
+If( not IsEmpty($ARAccountRefListID); "    <ListID>" & $ARAccountRefListID & "</ListID>");
+If( not IsEmpty($ARAccountRefFullName); "    <FullName>" & $ARAccountRefFullName & "</FullName>");
+If( not IsEmpty($ARAccountRef); "  </ARAccountRef>");
+If( not IsEmpty($TemplateRef); "  <TemplateRef>");
+If( not IsEmpty($TemplateRefListID); "    <ListID>" & $TemplateRefListID & "</ListID>");
+If( not IsEmpty($TemplateRefFullName); "    <FullName>" & $TemplateRefFullName & "</FullName>");
+If( not IsEmpty($TemplateRef); "  </TemplateRef>");
+If( not IsEmpty($TxnDate); "  <TxnDate>" & $TxnDate & "</TxnDate>");
+If( not IsEmpty($RefNumber); "  <RefNumber>" & $RefNumber & "</RefNumber>");
+_qbxml.billaddress;
+_qbxml.shipaddress;
+If( not IsEmpty($IsPending); "  <IsPending>" & $IsPending & "</IsPending>");
+If( not IsEmpty($PONumber); "  <PONumber>" & $PONumber & "</PONumber>");
+If( not IsEmpty($TermsRef); "  <TermsRef>");
+If( not IsEmpty($TermsRefListID); "    <ListID>" & $TermsRefListID & "</ListID>");
+If( not IsEmpty($TermsRefFullName); "    <FullName>" & $TermsRefFullName & "</FullName>");
+If( not IsEmpty($TermsRef); "  </TermsRef>");
+If( not IsEmpty($DueDate); "  <DueDate>" & $DueDate & "</DueDate>");
+If( not IsEmpty($SalesRepRef); "  <SalesRepRef>");
+If( not IsEmpty($SalesRepRefListID); "    <ListID>" & $SalesRepRefListID & "</ListID>");
+If( not IsEmpty($SalesRepRefFullName); "    <FullName>" & $SalesRepRefFullName & "</FullName>");
+If( not IsEmpty($SalesRepRef); "  </SalesRepRef>");
+If( not IsEmpty($FOB); "  <FOB>" & $FOB & "</FOB>");
+If( not IsEmpty($ShipDate); "  <ShipDate>" & $ShipDate & "</ShipDate>");
+If( not IsEmpty($ShipMethodRef); "  <ShipMethodRef>");
+If( not IsEmpty($ShipMethodRefListID); "    <ListID>" & $ShipMethodRefListID & "</ListID>");
+If( not IsEmpty($ShipMethodRefFullName); "    <FullName>" & $ShipMethodRefFullName & "</FullName>");
+If( not IsEmpty($ShipMethodRef); "  </ShipMethodRef>");
+If( not IsEmpty($ItemSalesTaxRef); "  <ItemSalesTaxRef>");
+If( not IsEmpty($ItemSalesTaxRefListID); "    <ListID>" & $ItemSalesTaxRefListID & "</ListID>");
+If( not IsEmpty($ItemSalesTaxRefFullName); "    <FullName>" & $ItemSalesTaxRefFullName & "</FullName>");
+If( not IsEmpty($ItemSalesTaxRef); "  </ItemSalesTaxRef>");
+If( not IsEmpty($Memo); "  <Memo>" & $Memo & "</Memo>");
+If( not IsEmpty($CustomerMsgRef); "  <CustomerMsgRef>");
+If( not IsEmpty($CustomerMsgRefListID); "    <ListID>" & $CustomerMsgRefListID & "</ListID>");
+If( not IsEmpty($CustomerMsgRefFullName); "    <FullName>" & $CustomerMsgRefFullName & "</FullName>");
+If( not IsEmpty($CustomerMsgRef); "  </CustomerMsgRef>");
+If( not IsEmpty($IsToBePrinted); "  <IsToBePrinted>" & $IsToBePrinted & "</IsToBePrinted>");
+If( not IsEmpty($IsToBeEmailed); "  <IsToBeEmailed>" & $IsToBeEmailed & "</IsToBeEmailed>");
+If( not IsEmpty($CustomerSalesTaxCodeRef); "  <CustomerSalesTaxCodeRef>");
+If( not IsEmpty($CustomerSalesTaxCodeRefListID); "    <ListID>" & $CustomerSalesTaxCodeRefListID & "</ListID>");
+If( not IsEmpty($CustomerSalesTaxCodeRefFullName); "    <FullName>" & $CustomerSalesTaxCodeRefFullName & "</FullName>");
+If( not IsEmpty($CustomerSalesTaxCodeRef); "  </CustomerSalesTaxCodeRef>");
+If( not IsEmpty($Other); "  <Other>" & $Other & "</Other>");
+If( not IsEmpty($LinkToTxnID); "  <LinkToTxnID>" & $LinkToTxnID & "</LinkToTxnID>");
+items;
+"</InvoiceAdd>")
+
+&
+
+"¶</InvoiceAddRq>"
+)

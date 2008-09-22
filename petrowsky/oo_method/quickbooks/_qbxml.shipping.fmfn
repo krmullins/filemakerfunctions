@@ -1,0 +1,38 @@
+List(
+If( not IsEmpty($ShipAddress); "<ShipAddress>");
+If( not IsEmpty($ShipAddressAddr1); "  <Addr1>" & $ShipAddressAddr1 & "</Addr1>");
+If( not IsEmpty($ShipAddressAddr2); "  <Addr2>" & $ShipAddressAddr2 & "</Addr2>");
+If( not IsEmpty($ShipAddressAddr3); "  <Addr3>" & $ShipAddressAddr3 & "</Addr3>");
+If( not IsEmpty($ShipAddressAddr4); "  <Addr4>" & $ShipAddressAddr4 & "</Addr4>");
+If( not IsEmpty($ShipAddressAddr5); "  <Addr5>" & $ShipAddressAddr5 & "</Addr5>");
+If( not IsEmpty($ShipAddressCity); "  <City>" & $ShipAddressCity & "</City>");
+If( not IsEmpty($ShipAddressState); "  <State>" & $ShipAddressState & "</State>");
+If( not IsEmpty($ShipAddressPostalCode); "  <PostalCode>" & $ShipAddressPostalCode & "</PostalCode>");
+If( not IsEmpty($ShipAddressCountry); "  <Country>" & $ShipAddressCountry & "</Country>");
+If( not IsEmpty($ShipAddressNote); "  <Note>" & $ShipAddressNote & "</Note>");
+If( not IsEmpty($ShipAddress); "</ShipAddress>"))
+
+
+
+/*
+Use the following Let() within a SetVariable
+script step to assign all of the values at one time
+
+Let ( [
+$ShipAddress			= 0;
+$ShipAddressAddr1		= 0;
+$ShipAddressAddr2		= 0;
+$ShipAddressAddr3		= 0;
+$ShipAddressAddr4		= 0;
+$ShipAddressAddr5		= 0;
+$ShipAddressCity		= 0;
+$ShipAddressState		= 0;
+$ShipAddressPostalCode	= 0;
+$ShipAddressCountry		= 0;
+$ShipAddressNote		= 0;
+$ShipAddress			= 0
+];
+1
+)
+
+*/

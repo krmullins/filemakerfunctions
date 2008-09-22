@@ -1,0 +1,25 @@
+/*
+window.properties ( method )
+RETURNS:  Window settings of top, left, width, height where method controls what is returned
+DEPS: script.param.named
+*/
+
+Let (
+[
+_WindowProperties = List( Get ( WindowTop ) ; Get ( WindowLeft ) ; Get ( WindowWidth ) ; Get ( WindowHeight ) )
+];
+
+  Case(
+  method = "" or
+  method = "standard" ; _WindowProperties;
+  
+  method = "piped" ; Substitute ( _WindowProperties ; ¶ ; "|" );
+
+  method = "named" ; script.param.named ( List( "top";"left";"width";"height") ; List( Get ( WindowTop ) ; Get ( WindowLeft ) ; Get ( WindowWidth ) ; Get ( WindowHeight ) ) );
+
+  // default
+
+  _WindowProperties
+
+  )
+)
