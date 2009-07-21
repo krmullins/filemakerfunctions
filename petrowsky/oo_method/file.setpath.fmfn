@@ -2,7 +2,7 @@
 =====================================================
 file.setpath( location; subfolder )
 
-RETURNS:    (string) path to file/folder location.
+RETURNS:    (string) os specific path to file/folder location.
 PARAMS      location = (string) name of the folder location
             subfolder = (string) any subfolders you wish to append
 DEPS:       none
