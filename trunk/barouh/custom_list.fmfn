@@ -1,94 +1,157 @@
-/*
-------------------------------------------------------------------------------
-CustomList ( Start ; End ; Function )
-v 1.1
-Agnès Barouh - Report bugs to: barouh.agnes@wanadoo.fr
-------------------------------------------------------------------------------
+/*  Special Thanks to Ugo Di Luca - Grazie Mille, pour
+    l'aiguillage qu'il m'a fait prendre, merci à lui pour son
+    implication afin de vous rendre l'utilisation de
+    CustomList() plus limpide Merci pour tous ses commentaires
+    et sa notice ® Ugo Di Luca
+===========================================================
 
-NOTES:
+//   Author: Agnès Barouh - barouh.agnes@wanadoo.fr
 
-Numeric Lists range from X to +20000
-Text Lists range from X to +18700
-If your data is sorted, for GetNthRecord and GetLayoutObjectAttribute don't specify End - Start < +/-1500
-otherwise it takes a long time  to obtain the result
-IMPORTANT: When passing number values within the Function parameter you must use "[n]".
-It's replaced internally by the function.
+//  CustomList ( Start ; End ; Function )  v_4.5
+//  [please, do not used "CLNum" in your calculation with Let() ]
+//  Objectives and examples  :
 
-EXAMPLES:
+- Build any list based on all Native or Custom Functions involving a 'Number' value as a parameter, such as :
+Left(), Middle(), GetValue(), GetRepetitionNumber (),  GetNthRecord(), GetLayoutObjectAttribute () ...
 
-CustomList (  Start ; End ; "GetNthRecord ( FieldReference ; [n] )" ) 
-CustomList (  Start ; End ; """Name =>"" & GetNthRecord ( FieldName ; [n] ) & "" FirstName =>"" & GetNthRecord ( FirstFieldName ; [n] )"" )
-CustomList (  Start ; End ; "[n] & ""."" & MiddleValues ( FieldReference ; [n] ; 1 )") 
-CustomList (  Start ; End ; "GetAsDate ( Date ) + [n] )" )
-CustomList (  Start ; End ; "GetLayoutObjectAttribute ( ""ObjectName"" ; ""Content"" ; 1 ; [n] )" )
-CustomList (  Start ; End ; "Let ( [ Value = GetValue ( MyList ; [n] ) ] ; Case ( PatternCount ( Value ; "X" ) ; Value ))" )
-CustomList (  Start ; End ; "Let ([ $$Var[[n]] = GetNthRecord ( Field ; [n] ) ] ; """" ) " ) // To charge N variable
-*/
+  ex : - CustomList ( 1 ; Get ( FoundCount ) ; "GetNthRecord ( FirstName ; [n] )" ) 
 
+will return James¶Henry¶Susan if your foundset has 3 records.
 
-// Parameter Checks
+- Build any range based on Dates, Times, TimeStamps, and obviously Numbers
 
-Let([
-    
-    ParametersOK
-        = ( GetAsNumber( Start ) = Start )
-        = ( GetAsNumber( End ) = End )
-        = ( not IsEmpty( Start ) and not IsEmpty( End ) )
-        = ( GetAsNumber( End ) ≥ GetAsNumber( Start ) and GetAsNumber( End ) ≤ 20000 );
+  ex : CustomList ( 1 ; 5 ; "GetAsDate ( StartingDate ) + [n]" )
 
-    Bad_Params_Message = "You must supply numeric values for the Start and End values, End cannot be greater than Start and End may not be greater than 20,000."
+will return a range of 5 dates starting from the specified StartingDate
 
-    ];
-    
-    If( not ParametersOK ; Bad_Params_Message ;
-    
-    Let ( [
+The 'Function' Parameter is nothing else than a literal calculation expression. 
+Therefore, CustomList allows for any filtering or parsing
+process based on any condition you may need.
 
-    // Number List : --------------- Create numeric list -------------------
+  ex : CustomList ( 10 ; 100 ; "Let ( [ Value = GetValue ( MyList ; [n] ) ] ; Case ( PatternCount ( Value ; "X" ) ; Value ))" )
 
-            NumCalc =  Substitute ( ( 10 ^ 33 ) -1; "9"; "100100100" ) ;
-            List1_99 = Substitute ( "_00" & NumToJText ( Left ( NumCalc * NumCalc ; 295 ) ; 1 ; 0 ) ; ["," ; "_"] ; ["." ; "_"] ) ;
-            $List100_199 = "_100"  & Substitute (  List1_99 ; ["_0" ; "_1"] ) ; // (local variable makes it faster in a looped script )
-            EndMax =   LeftWords ( List1_99 & $List100_199 & "_200" ; Int ( ( End - 100 ) / 100 ) + 1 ) ;
-            FinalList =  MiddleWords ( List1_99 & Evaluate ( Substitute ( "(\"_" & EndMax ; 
-                              [ "_"; ( "|Substitute( $List100_199 ; \"_1\"; \"_" ) ] ; [ "|"; "\") & "] )  & "\")" ) ; Start ; End - Start + 1 ) ;
+will parse any value containing a "X" in the 'MyList' chain,
+in between the 10th and the 100th values.
 
-    //----------------------------- End Create numeric list -----------------
+See the 'Under the Hood' part at the end of the function to fully understand the process of this function
 
-            FunctionR = Substitute ( Function ; "[n]" ; "Num" ) ;
+--------------------------------
+/* MAJOR UPDATE */  Updated July'08
+--------------------------------
 
-    // Execute : Create the function string to be evaluated
+CustomList is based on a totally new algorithm, and is now
+voluntarily bridled to a maximum range of 500,000 values,
+where the first version was technically limited to a max of
+18,700 values.
 
-            Execute =   Case ( not IsEmpty ( Function ) ; 
-                            Case ( Left ( Substitute ( Lower ( Function ) ; ["Define" ; "Let" ] ; [" " ; ""] ; ["¶" ; ""]) ; 5 ) = "Let([" ; // If it's a Let()
-                            Substitute ( "Let([Num=" & FinalList & "|" ;  [ "_";  "|¶Let([Num="] ; [ "|";
-                            ";" & Replace ( FunctionR ; 1 ; Position ( FunctionR ; "[" ; 1 ; 1 ) ; "" ) & "&\"^|^\"&"] ) ;
-                            Substitute ( "Let([Num=" & FinalList & "|" ;  [ "_";  "|¶Let([Num="] ; [ "|";
-                            "];" & FunctionR & ")&\"^|^\"&"] ) ) ) ;
+Previous version still available here : http://www.briandunning.com/cf/747
 
-    // X - Determine the number of "blocks" to avoid the limit of the "Evaluate" Function
+The new CustomList() is faster and still is NOT recursive.
+The arguments are unchanged which makes it compatible with
+all your previous developments involving CustomList().
 
-            X = Int ( End / 1700 )  ;
+For Developer ease, the new CustomList() includes a
+debugging mode. find the "*****DEBUGGING MODE*****" tag in
+the formula below to switch mode. When debug is set to 1,
+any error will be returned with its appropriate explanatory
+code, else the result will be set to "?"
+-------------------------------- */
 
-    // Result : if "Function" parameter is empty, result is numeric list
+// ----------- FORMULA STARTS HERE -----------
 
-            Result = Substitute ( "^" & Case ( IsEmpty ( Function ) ; Substitute ( "_" & FinalList ; ["_00" ; "¶"] ; [ "_0" ; "¶"] ; [ "_" ; "¶"] ) ;                            
-                            Evaluate  ( MiddleValues ( Execute ; 1 ; 1700 )   & "\"\"")  & 
-                            Case ( X  >=  1 ; Evaluate ( MiddleValues ( Execute;  1701; 1700 ) & "\"\"" ) ; "" ) &
-                            Case ( X  >=  2 ; Evaluate ( MiddleValues ( Execute;  3401; 1700 ) & "\"\"" ) ; "" ) &
-                            Case ( X  >=  3 ; Evaluate ( MiddleValues ( Execute;  5101; 1700 ) & "\"\"" ) ; "" ) &
-                            Case ( X  >=  4 ; Evaluate ( MiddleValues ( Execute;  6801; 1700 ) & "\"\"" ) ; "" ) &
-                            Case ( X  >=  5 ; Evaluate ( MiddleValues ( Execute;  8501; 1700 ) & "\"\"" ) ; "" ) &
-                            Case ( X  >=  6 ; Evaluate ( MiddleValues ( Execute; 10201; 1700 ) & "\"\"" ) ; "" ) &
-                            Case ( X  >=  7 ; Evaluate ( MiddleValues ( Execute; 11901; 1700 ) & "\"\"" ) ; "" ) &
-                            Case ( X  >=  8 ; Evaluate ( MiddleValues ( Execute; 13601; 1700 ) & "\"\"" ) ; "" ) &
-                            Case ( X  >=  9 ; Evaluate ( MiddleValues ( Execute; 15301; 1700 ) & "\"\"" ) ; "" ) &
-                            Case ( X  >= 10 ; Evaluate ( MiddleValues ( Execute; 17001; 1700 ) & "\"\"" ) ;  "" )) & "^"       
-                            ; [ "^|^"; "¶" ] ; [ "¶"; "¶^" ] ; [ "^¶"; "" ] ; [ "¶^"; "¶" ] ; [ "¶^" ; "" ] ; [ "^" ; "" ] )  
+Case (
+           /*This function will not evaluate if Invalid parameters were passed for Start and End.*/
 
-    ] ;
+            IsEmpty ( Start ) or IsEmpty ( End ) or End < 1 or Start < 1; "";
+          
+            Let ( [
+                         Start =  GetAsNumber ( Start );
+                         End =   GetAsNumber ( End );
+                         Diff = End - Start + 1;
 
-    If( Result = "?" ; 0 ; Result )
+                         /*Check for a range higher than 500,000 values. CustomList() is voluntarily restrained to this limit.*/
 
-    ))
+                         End =   Case ( Diff > 500000 or End < Start or IsEmpty ( Start ) or IsEmpty ( End ); "Error"; End );
+                         $null = "\"\"";
+
+                         /*CustomList has its own recursion model. As CustomList may be involved into the "function" argument, 
+                         each CustomList expression used is passed to a repeating variable for evaluation*/
+
+                         iter = Let ( $CLExeCount = $CLExeCount + 1 ; $CLExeCount & PatternCount ( Function ; "CustomList" ) + 1 ) ;
+                         $CLn[ iter ]  = Start - 1;
+                         Calc = Case ( Diff ≥ 1600; 169; Floor ( Diff / 10 ) + 1 );
+
+                         /*Here starts the "magic" of the Substitutions and the whole mechanism.
+                         CustomList() is set to evaluate stacks of 1,700 values at a time, which is the 
+                         current limit of FileMaker internal Evaluate function */
+
+                         First = Substitute ( ( 10 ^ Calc ) - 1; 9; "__________" ) & "_________";  
+                         X = Floor ( Diff / 1700 );
+                         $CLRemainder[ iter ]  = Diff - ( X * 1700 );
+
+                         /*When the "Function" argument is left empty, CustomList() will return a numeric list based on the range defined */
+
+                         FunctionR = Case ( IsEmpty ( Function ); "CLNum"; Substitute ( Function; ["[n]"; "CLNum"] ; [¶ ; ""] ) );
+
+                         /*Each repeating variable content is parsed in order to get our String ready for the last evaluation - Special care is made for
+                         French users here, please substitute the "definir" below with your local translation of the "Let" function if you're not using an english
+                         version. The use of "Let ([" is recommanded anyway */
+
+                         $CLExecute[ iter ] = Case ( Left ( Substitute ( Lower ( Function ); ["definir"; "Let" ]; [" "; ""]; ["¶"; ""]); 5 ) = "Let([";
+                                           Substitute ( "Let([$CLn[" & iter & "]  = $CLn[" & iter & "]  + 1 ; CLNum = $CLn[" & iter & "]" & First & "|"; 
+                                           [ "_";  "|¶Let([$CLn[" & iter & "]  = $CLn[" & iter & "]  + 1 ; CLNum = $CLn[" & iter & "] "]; [ "|";";" &
+                                           Replace ( FunctionR; 1; Position ( FunctionR; "["; 1; 1 ); "" ) & "&\"#^#|#^#\"&"] );
+                                           Substitute ( "Let([$CLn[" & iter & "]  = $CLn[" & iter & "]  + 1 ;  CLNum = $CLn[" & iter & "]" & First & "|";
+                                           [ "_";  "|¶Let([$CLn[" & iter & "]  = $CLn[" & iter & "]  + 1 ;  CLNum = $CLn[" & iter & "] "]; [ "|";"];" & FunctionR & ")&\"#^#|#^#\"&"] ) );
+
+                         /*Final compilation starts here. The reminder part above each 1,700 values is treated now. */
+  
+                          Final = Case ( X > 0; Substitute ( ( 10 ^ X ) - 1; 9; "Evaluate ( $CLExecute[" & iter & "] & $null ) & " ) ) &
+                                      "Evaluate( LeftValues ( $CLExecute[" & iter & "] ; $CLRemainder[" & iter & "]  ) & $null ) & " & $null;
+
+                         /*The Final variable can now be evaluated to get our List*/
+
+                          Result  =   Case ( End <> "Error"; Substitute ( "#^#" & Evaluate  ( Final ) & "#^#";
+                                           [ "#^#|#^#"; "¶" ]; [ "¶"; "¶#^#" ]; [ "#^#¶"; "" ]; [ "¶#^#"; "¶" ]; [ "¶#^#"; "" ]; [ "#^#"; "" ] ) ) ;
+                          $CLExecute[ iter ]  = "" 
+
+// ----------- FUNCTION RESULT BELOW -----------
+            ];
+/*CustomList returns either the valid result, or an error formatted according to the debugging mode chosen above*/
+
+     Case (
+          ( Length ( Result ) and ( Result = Filter ( Result; "?" ))) or End =  "Error";
+          Let ([
+                    /*****DEBUGGING MODE*****/   // Case Debug = 1, returned error "[error_CL], Number, Name and Calculation error" ,if Debug  <> 1, returned error is "?"
+                    Debug = "1";
+                    Write = Substitute ( Function; "[n]"; 1 ); NumError = EvaluationError ( Evaluate ( Write ) );
+                    Error = "[" & NumError & "] " & "Unlisted error | Unknown error, check calculation or check \"Start\" and \"End\" ¶102 | Field is missing¶103 | Relationship is missing¶106 | Table is missing¶113 | Function is missing¶1204 | Number, text constant, field name or \"(\" expected¶1205 | Comment is not terminated with \"*/\"¶1206 | Text constant must end with a quotation mark¶1207 | Unbalanced parenthesis¶1208 | Operator or function missing or \"(\" not expected¶1211 | List usage is not allowed in this function¶1212 | An operator (for example, +, -, *,;) is expected here¶1215 | This parameter is an invalid Get function parameter";
+                    Pos = ValueCount ( Left ( Error; Position ( Error; NumError & " "; 1; 1 ) ) )
+     ];
+          Case ( Debug = 1; "[Error_CL]  | Return error : " & GetValue ( Error; Case ( Pos = 0; 1; Pos ) ) & ¶ & TextStyleAdd ( "Calculation ( for [n] = 1 ) : "; Bold ) & Write; "?" ));
+  Result ))
 )
+
+// ----------- UNDER THE HOOD -----------
+
+/* Not very much afterwards...
+Basically, CustomList() does two things :
+1/ Transform your formula in a litteral chain :
+
+CustomList ( 1; 4; "GetNthRecord ( Field ; [n])")
+therefore becomes
+"Let ([ CLNum = 1 ] ; GetNthRecord ( Field ; CLNum )) & ¶ &
+Let ([ CLNum = 2 ] ; GetNthRecord ( Field ; CLNum )) & ¶ &
+Let ([ CLNum = 3 ] ; GetNthRecord ( Field ; CLNum )) & ¶ &
+Let ([ CLNum = 4 ] ; GetNthRecord ( Field ; CLNum ))"
+
+2/ Evaluates this chain.
+
+Interrested in the mechanism ?
+My advice then : dissect this function by escaping the
+'Result' and placing one of the numerous intermediary
+variables available.
+
+Special attention should be paid to the 'First' Variable,
+everything starts from there !
+*/
