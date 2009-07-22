@@ -1,11 +1,11 @@
 /*
-=====================================================
-FunctionName( params; params )
-
-RETURNS:    (bool || string || int) Result of the execution of a script.
-DEPS:       Dependancies on other functions here.
-=====================================================
-*/
+ *=====================================================
+ *FunctionName( params; params )
+ *
+ *RETURNS:    (bool || string || int) Result of the execution of a script.
+ *DEPS:       Dependancies on other functions here.
+ *=====================================================
+ */
 
 Let([ 
 //------------------------- VARIABLES
