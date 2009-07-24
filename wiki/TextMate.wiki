@@ -1,0 +1,10 @@
+#summary Information about the TextMate editor for Macintosh.
+
+= Introduction =
+
+TextMate is a powerful text editor for the Macintosh.
+
+
+= Details =
+
+Find more information about TextMate at the [http://macromates.com/ Macromates web site].
