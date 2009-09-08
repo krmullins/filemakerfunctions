@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?><FMClipboard><Version>31050522</Version><Comment>Version History
+==========
+20070106 – KVH – Original version
+
+Description
+=======
+Get list of all active tabs that are in the front 
+
+Usage
+====
+FW_GetActiveTabs ( 0 ; "" ) </Comment><SourceWindowName></SourceWindowName><Class>XMCF</Class><ClipVersion></ClipVersion><ClipTimeStamp>3290407119</ClipTimeStamp><ClipAuthor></ClipAuthor><Clipboard>&lt;CustomFunction id="1" name="SH_GetScriptResult" visible="True" parameters="PropertyName"&gt;
+&lt;Calculation&gt;
+&lt;![CDATA[// SH_GetScriptResult ( PropertyName ) 
+/*
+Version History
+==========
+20060927 – KVH - 
+
+Description
+=======
+Function Name : SH_GetScriptParameter
+parameter 1 : PropertyName
+
+Output: 
+$SH_errNum : Error Number 
+$SH_errText : Error Text 
+
+
+*/
+
+Let ( 
+[ 
+parameter = PropertyName 
+; 
+propertylist = Get ( ScriptResult ) 
+; 
+$$SH_GetScriptParameter_separator = If(IsEmpty($$SH_GetScriptParameter_separator) ; "|" ; $$SH_GetScriptParameter_separator) 
+; 
+countEqualsign = PatternCount( propertyList ; "=") 
+; 
+countSeparator = PatternCount( propertyList ; $$SH_GetScriptParameter_separator) 
+; 
+thePropertylist = $$SH_GetScriptParameter_separator  &amp; propertylist &amp; $$SH_GetScriptParameter_separator 
+; 
+checkstring1 = $$SH_GetScriptParameter_separator &amp; parameter &amp; "=" 
+; 
+checkstring2 = $$SH_GetScriptParameter_separator &amp; " " &amp; parameter &amp; "=" 
+; 
+checkstring3 = $$SH_GetScriptParameter_separator &amp; parameter &amp; " =" 
+; 
+checkstring4 = $$SH_GetScriptParameter_separator &amp; " " &amp; parameter &amp; " =" 
+; 
+checkoccurences = PatternCount ( Substitute(thePropertylist; " " ; "") ; checkstring1 ) + PatternCount ( Substitute(thePropertylist; " " ; "") ; checkstring2 ) + PatternCount ( Substitute(thePropertylist; " " ; "") ; checkstring3 ) + PatternCount ( Substitute(thePropertylist; " " ; "") ; checkstring4 ) 
+; 
+paramPos = Position ( thePropertylist ; checkstring1 ; 1 ; 1 ) +Position ( thePropertylist ; checkstring2 ; 1 ; 1 ) + Position ( thePropertylist ; checkstring3 ; 1 ; 1 ) + Position ( thePropertylist ; checkstring4 ; 1 ; 1 ) 
+; 
+posCorrection = If(Position ( thePropertylist ; checkstring2 ; 1 ; 1 ) ; 1) + If(Position ( thePropertylist ; checkstring3 ; 1 ; 1 );1) + If(Position ( thePropertylist ; checkstring4 ; 1 ; 1 )  ; 2) 
+; 
+startValue = parampos + Length(parameter) + posCorrection + 2 
+; 
+endValue = Position ( thepropertylist ; $$SH_GetScriptParameter_separator ; startValue ; 1 ) 
+; 
+theValue = Middle ( thepropertylist ; startValue ; endValue - startValue ) 
+
+] 
+; 
+Case 
+( 
+// Level 1 
+IsEmpty(propertylist) 
+; 
+Let([$SH_errNum = 10 ; $SH_errText = "[error] Propertylist is empty" ] ; "" ) 
+; 
+// Level 2 
+IsEmpty(parameter) 
+; 
+Let([$SH_errNum = 21 ; $SH_errText = "[error] Property name is empty" ] ; "" ) 
+; 
+countEqualsign = 0 
+; 
+Let([$SH_errNum = 22 ; $SH_errText = "[error] No equal sign found in property list" ] ; "" ) 
+; 
+checkoccurences  &gt; 1 
+; 
+Let([$SH_errNum = 23 ; $SH_errText = "[error]Property name occures more then once in the Propertylist" ] ; "" ) 
+; 
+// Level 3 
+countSeparator  = 0 and countEqualsign  &lt;&gt; 1 
+; 
+Let([$SH_errNum = 30 ; $SH_errText = "[error] invalid separator specified in property list" ] ; "" ) 
+; 
+countSeparator   &gt;=  countEqualsign 
+; 
+Let([$SH_errNum = 31 ; $SH_errText = "[error] to many separators found in property list" ] ; "" ) 
+; 
+// Warnings 
+checkoccurences = 0 
+; 
+Let([$SH_errNum = 9 ; $SH_errText = "[warning] Variable not defined" ] ; "" ) 
+; 
+IsEmpty(theValue) 
+; 
+Let([$SH_errNum = 1 ; $SH_errText = "[warning] Variable is empty" ] ; "" ) 
+; 
+// OK 
+Let([$SH_errNum = 0 ; $SH_errText = "" ] ; theValue ) // OK 
+) 
+)]]&gt;
+&lt;/Calculation&gt;
+&lt;/CustomFunction&gt;</Clipboard><Picture></Picture></FMClipboard>
