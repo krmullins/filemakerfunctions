@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><FMClipboard><Version>31050522</Version><Comment>Version History
+==========
+20070106 – KVH – Original version
+
+Description
+=======
+Get list of all active tabs that are in the front 
+
+Usage
+====
+FW_GetActiveTabs ( 0 ; "" ) </Comment><SourceWindowName></SourceWindowName><Class>XMCF</Class><ClipVersion></ClipVersion><ClipTimeStamp>3290403868</ClipTimeStamp><ClipAuthor></ClipAuthor><Clipboard>&lt;CustomFunction id="1" name="FW_GetActiveTabs" visible="True" parameters="init;theList"&gt;
+&lt;Calculation&gt;
+&lt;![CDATA[// FW_GetActiveTabs ( init; theList ) 
+/*
+Version History
+==========
+20070106 – KVH – Original version
+
+Description
+=======
+Get list of all active tabs that are in the front 
+
+Usage
+====
+FW_GetActiveTabs ( 0 ; "" ) 
+
+
+*/
+
+
+Let 
+( 
+[ 
+init = init + 1 
+; 
+objectList = LayoutObjectNames ( Get(FileName) ; Get(LayoutName) ) 
+; 
+tabToCheck =  Substitute( GetValue(objectList; init)  ; "¶" ; "") 
+; 
+parenttab = GetLayoutObjectAttribute ( tabToCheck ; "enclosingObject" ) 
+; 
+iscurrenttab = Case( IsEmpty(tabToCheck) ;  0  ;   GetLayoutObjectAttribute ( tabToCheck ; "isFrontTabPanel")  and IsEmpty(parenttab) ; 1 ; GetLayoutObjectAttribute ( tabToCheck ; "isFrontTabPanel")  and PatternCount( "¶" &amp; theList &amp; "¶"; "¶" &amp;  parenttab &amp; "¶") ; 1  ;  0 ) 
+; 
+theList = theList &amp; If( iscurrenttab ;   tabToCheck &amp; "¶" ) 
+
+] 
+;    
+
+
+ If(not IsEmpty(tabToCheck) ; FW_GetActiveTabs(init; theList) ; theList) 
+
+)]]&gt;
+&lt;/Calculation&gt;
+&lt;/CustomFunction&gt;</Clipboard><Picture></Picture></FMClipboard>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><FMClipboard><Version>31050522</Version><Comment>Version History
+==========
+20070106 – KVH – Original version
+
+Description
+=======
+Get list of all active tabs that are in the front 
+
+Usage
+====
+FW_GetActiveTabs ( 0 ; "" ) </Comment><SourceWindowName></SourceWindowName><Class>XMCF</Class><ClipVersion></ClipVersion><ClipTimeStamp>3290407337</ClipTimeStamp><ClipAuthor></ClipAuthor><Clipboard>&lt;CustomFunction id="1" name="SH_AddStringEvery" visible="True" parameters="originalText;text;everyPosition;start"&gt;
+&lt;Calculation&gt;
+&lt;![CDATA[// SH_AddStringEvery ( originalText ; text ; everyPosition ; start ) 
+/*
+Version History
+==========
+20070117 – KVH – Original Version
+
+Description
+=======
+Parameters:
+originalText 
+text: put this text between every x characters 
+everyPosition = every x characters 
+start = left|right 
+
+Usage
+====
+SH_AddStringEvery ( "xxxxx" ; "-" ; 2 ; "left" ) 
+xx-xx-x 
+
+SH_AddStringEvery ( "xxxxx" ; "-" ; 2 ; "right" ) 
+x-xx-xx 
+
+SH_AddStringEvery ( "4123245251524" ; " " ; 3 ; "right" ) 
+4 123 245 251 524 
+*/
+
+
+Let
+(
+[
+firstvalue = If(start="left"; Left(originalText ; everyPosition) ; Right(originalText ; everyPosition) )
+;
+nextText =  If( start="left" ; Right(originalText ; Length(originalText)- everyPosition) ; Left(originalText ; Length(originalText)- everyPosition)  )
+]
+;
+If (
+start="left"
+;
+firstvalue &amp; If(not IsEmpty(nextText) ; text &amp; SH_AddStringEvery(nextText ; text ; everyPosition; start) )
+;
+If(not IsEmpty(nextText) ; SH_AddStringEvery(nextText ; text ; everyPosition; start)  &amp; text ) &amp; firstvalue
+)
+
+)]]&gt;
+&lt;/Calculation&gt;
+&lt;/CustomFunction&gt;</Clipboard><Picture></Picture></FMClipboard>
